@@ -93,5 +93,21 @@ namespace ParkingLotTest
             Assert.Null(fetchedCarWithWrongTicket);
             Assert.Equal(car, fetchedCarWithCorrectTicket);
         }
+
+        [Fact]
+        public void Should_return_no_car_when_ticket_is_not_provide()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car = new Car("123");
+            var correctTicket = boy.Park(car, lot);
+            Ticket wrongTicket = null;
+
+            var fetchedCarWithWrongTicket = boy.Fetch(wrongTicket, lot);
+            var fetchedCarWithCorrectTicket = boy.Fetch(correctTicket, lot);
+
+            Assert.Null(fetchedCarWithWrongTicket);
+            Assert.Equal(car, fetchedCarWithCorrectTicket);
+        }
     }
 }
