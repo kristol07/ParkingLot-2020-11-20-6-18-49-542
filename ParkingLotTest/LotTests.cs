@@ -32,9 +32,8 @@ namespace ParkingLotTest
             var car = new Car("123");
 
             var ticket = boy.Park(car, lot);
-            var carsParked = lot.GetAllCars();
 
-            Assert.True(carsParked.Contains(car));
+            Assert.True(lot.HaveCar(car));
         }
     }
 }
