@@ -8,7 +8,8 @@ namespace ParkingLot
     {
         public Ticket Park(Car car, Lot lot)
         {
-            return new Ticket(car.GetLicenseNumber(), lot.GetLocation());
+            var ticket = lot.ParkCar(car);
+            return ticket;
         }
     }
 }

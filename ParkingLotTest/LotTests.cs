@@ -13,7 +13,7 @@ namespace ParkingLotTest
         {
             //given
             var boy = new Boy();
-            var lot = new Lot("test location");
+            var lot = new Lot();
             var car = new Car("123");
 
             //when
@@ -22,6 +22,19 @@ namespace ParkingLotTest
             //then
             Assert.Equal("123", ticket.GetLicenseNumber());
             Assert.Equal("test location", ticket.GetLotLocation());
+        }
+
+        [Fact]
+        public void ParkingLot_should_have_the_car_when_car_is_parked_in()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car = new Car("123");
+
+            var ticket = boy.Park(car, lot);
+            var carsParked = lot.GetAllCars();
+
+            Assert.True(carsParked.Contains(car));
         }
     }
 }

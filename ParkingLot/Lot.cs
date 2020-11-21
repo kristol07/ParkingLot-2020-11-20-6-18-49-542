@@ -8,11 +8,13 @@ namespace ParkingLot
     {
         private readonly string location;
         private int capacity;
+        private List<Car> cars;
 
-        public Lot(string location, int capacity = 10)
+        public Lot(string location = "test location", int capacity = 10)
         {
             this.location = location;
             this.capacity = capacity;
+            this.cars = new List<Car>();
         }
 
         public bool HasPosition => capacity > 0;
@@ -20,6 +22,18 @@ namespace ParkingLot
         public string GetLocation()
         {
             return location;
+        }
+
+        public Ticket ParkCar(Car car)
+        {
+            cars.Add(car);
+            capacity -= 1;
+            return new Ticket(car.GetLicenseNumber(), location);
+        }
+
+        public List<Car> GetAllCars()
+        {
+            return cars;
         }
     }
 }
