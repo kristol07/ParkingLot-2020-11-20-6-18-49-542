@@ -14,6 +14,12 @@ namespace ParkingLot
             this.licenseNumber = licenseNumber;
             this.lotLocation = lotLocation;
             this.boyId = boyId;
+            this.IsUsed = false;
+        }
+
+        public bool IsUsed
+        {
+            get; set;
         }
 
         public string GetLicenseNumber()

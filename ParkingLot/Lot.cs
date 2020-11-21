@@ -70,6 +70,7 @@ namespace ParkingLot
 
             var car = cars.Find(car => car.GetLicenseNumber() == ticket.GetLicenseNumber());
             cars.Remove(car);
+            ticket.IsUsed = true;
             return car;
         }
 
