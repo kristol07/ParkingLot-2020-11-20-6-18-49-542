@@ -43,7 +43,7 @@ namespace ParkingLot
 
         public Ticket ParkCar(Car car, Boy boy)
         {
-            if (!HasPosition)
+            if (!HasPosition || HaveCar(car))
             {
                 return null;
             }
