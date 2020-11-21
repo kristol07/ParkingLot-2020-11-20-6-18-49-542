@@ -51,6 +51,21 @@ namespace ParkingLotTest
         }
 
         [Fact]
+        public void Should_have_changed_number_of_position_when_car_is_fetched()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car = new Car("123");
+            var ticket = boy.Park(car, lot);
+            var initialCapacity = lot.GetCapacity();
+
+            boy.Fetch(ticket, lot);
+            var newCapacity = lot.GetCapacity();
+
+            Assert.Equal(1, newCapacity - initialCapacity);
+        }
+
+        [Fact]
         public void Should_return_correct_car_when_ticket_is_provided()
         {
             var boy = new Boy();
