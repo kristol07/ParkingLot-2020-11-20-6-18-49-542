@@ -8,10 +8,12 @@ namespace ParkingLot
     {
         private readonly string licenseNumber;
         private readonly string lotLocation;
-        public Ticket(string licenseNumber, string lotLocation)
+        private readonly int boyId;
+        public Ticket(string licenseNumber, string lotLocation, int boyId)
         {
             this.licenseNumber = licenseNumber;
             this.lotLocation = lotLocation;
+            this.boyId = boyId;
         }
 
         public string GetLicenseNumber()
@@ -22,6 +24,11 @@ namespace ParkingLot
         public string GetLotLocation()
         {
             return lotLocation;
+        }
+
+        public int GetBoyId()
+        {
+            return boyId;
         }
     }
 }

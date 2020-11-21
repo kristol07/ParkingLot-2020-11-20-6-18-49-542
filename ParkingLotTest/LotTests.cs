@@ -77,5 +77,21 @@ namespace ParkingLotTest
 
             Assert.Equal(car.GetLicenseNumber(), fetchedCar.GetLicenseNumber());
         }
+
+        [Fact]
+        public void Should_return_no_car_when_ticket_is_wrong_with_boyId()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car = new Car("123");
+            var correctTicket = boy.Park(car, lot);
+            var wrongTicket = new Ticket(car.GetLicenseNumber(), lot.GetLocation(), boy.GetId() + 1);
+
+            var fetchedCarWithWrongTicket = boy.Fetch(wrongTicket, lot);
+            var fetchedCarWithCorrectTicket = boy.Fetch(correctTicket, lot);
+
+            Assert.Null(fetchedCarWithWrongTicket);
+            Assert.Equal(car, fetchedCarWithCorrectTicket);
+        }
     }
 }

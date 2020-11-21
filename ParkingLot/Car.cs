@@ -16,5 +16,10 @@ namespace ParkingLot
         {
             return licenseNumber;
         }
+
+        public override bool Equals(object? obj)
+        {
+            return licenseNumber == ((Car)obj).GetLicenseNumber();
+        }
     }
 }
