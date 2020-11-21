@@ -20,8 +20,8 @@ namespace ParkingLotTest
             var ticket = boy.Park(car, lot);
 
             //then
-            Assert.Equal("123", ticket.GetLicenseNumber());
-            Assert.Equal("test location", ticket.GetLotLocation());
+            Assert.Equal(car.GetLicenseNumber(), ticket.GetLicenseNumber());
+            Assert.Equal(lot.GetLocation(), ticket.GetLotLocation());
         }
 
         [Fact]
@@ -42,12 +42,12 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
-            var initialCapacity = lot.GetCapacity();
+            var initialLeftPosition = lot.LeftPosition;
 
             var ticket = boy.Park(car, lot);
-            var newCapacity = lot.GetCapacity();
+            var newLeftPosition = lot.LeftPosition;
 
-            Assert.Equal(1, initialCapacity - newCapacity);
+            Assert.Equal(1, initialLeftPosition - newLeftPosition);
         }
 
         [Fact]
@@ -57,12 +57,12 @@ namespace ParkingLotTest
             var lot = new Lot();
             var car = new Car("123");
             var ticket = boy.Park(car, lot);
-            var initialCapacity = lot.GetCapacity();
+            var initialLeftPosition = lot.LeftPosition;
 
-            boy.Fetch(ticket, lot);
-            var newCapacity = lot.GetCapacity();
+            var fecthedCar = boy.Fetch(ticket, lot);
+            var newLeftPosition = lot.LeftPosition;
 
-            Assert.Equal(1, newCapacity - initialCapacity);
+            Assert.Equal(1, newLeftPosition - initialLeftPosition);
         }
 
         [Fact]

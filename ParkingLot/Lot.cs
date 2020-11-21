@@ -17,7 +17,15 @@ namespace ParkingLot
             this.cars = new List<Car>();
         }
 
-        public bool HasPosition => capacity > 0;
+        public int LeftPosition
+        {
+            get
+            {
+                return capacity - cars.Count;
+            }
+        }
+
+        public bool HasPosition => LeftPosition > 0;
 
         public string GetLocation()
         {
@@ -27,7 +35,6 @@ namespace ParkingLot
         public Ticket ParkCar(Car car)
         {
             cars.Add(car);
-            capacity -= 1;
             return new Ticket(car.GetLicenseNumber(), location);
         }
 
@@ -35,18 +42,12 @@ namespace ParkingLot
         {
             var car = cars.Find(car => car.GetLicenseNumber() == ticket.GetLicenseNumber());
             cars.Remove(car);
-            capacity += 1;
             return car;
         }
 
         public bool HaveCar(Car car)
         {
             return cars.Contains(car);
-        }
-
-        public int GetCapacity()
-        {
-            return capacity;
         }
     }
 }
