@@ -79,6 +79,23 @@ namespace ParkingLotTest
         }
 
         [Fact]
+        public void Should_return_correct_car_when_multiple_tickets_are_provided()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car1 = new Car("123");
+            var car2 = new Car("456");
+            var ticket1 = boy.Park(car1, lot);
+            var ticket2 = boy.Park(car2, lot);
+
+            Car fetchedCar1 = boy.Fetch(ticket1, lot);
+            Car fetchedCar2 = boy.Fetch(ticket2, lot);
+
+            Assert.Equal(car1.GetLicenseNumber(), fetchedCar1.GetLicenseNumber());
+            Assert.Equal(car2.GetLicenseNumber(), fetchedCar2.GetLicenseNumber());
+        }
+
+        [Fact]
         public void Should_return_no_car_when_ticket_is_wrong_with_boyId()
         {
             var boy = new Boy();
