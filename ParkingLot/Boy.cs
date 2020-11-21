@@ -15,13 +15,32 @@ namespace ParkingLot
 
         public Ticket Park(Car car, Lot lot)
         {
-            if (car == null)
+            if (car == null || !lot.HasPosition || lot.HaveCar(car))
             {
                 return null;
             }
 
             var ticket = lot.ParkCar(car, this);
             return ticket;
+        }
+
+        public Car Fetch(Ticket ticket, Lot lot, out string responseMessage)
+        {
+            if (ticket == null)
+            {
+                responseMessage = "Please provide your parking ticket.";
+                return null;
+            }
+
+            if (ticket.GetBoyId() != id || ticket.IsUsed)
+            {
+                responseMessage = "Unrecognized parking ticket.";
+                return null;
+            }
+
+            responseMessage = string.Empty;
+            var car = lot.ReturnCar(ticket, this);
+            return car;
         }
 
         public Car Fetch(Ticket ticket, Lot lot)
