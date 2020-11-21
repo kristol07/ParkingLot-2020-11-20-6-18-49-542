@@ -37,7 +37,7 @@ namespace ParkingLotTest
         }
 
         [Fact]
-        public void Should_have_changed_number_of_position_when_bew_car_is_parked_in()
+        public void Should_have_changed_number_of_position_when_new_car_is_parked_in()
         {
             var boy = new Boy();
             var lot = new Lot();
@@ -46,7 +46,21 @@ namespace ParkingLotTest
 
             var ticket = boy.Park(car, lot);
             var newCapacity = lot.GetCapacity();
+
             Assert.Equal(1, initialCapacity - newCapacity);
+        }
+
+        [Fact]
+        public void Should_return_correct_car_when_ticket_is_provided()
+        {
+            var boy = new Boy();
+            var lot = new Lot();
+            var car = new Car("123");
+            var ticket = boy.Park(car, lot);
+
+            Car fetchedCar = boy.Fetch(ticket, lot);
+
+            Assert.Equal(car.GetLicenseNumber(), fetchedCar.GetLicenseNumber());
         }
     }
 }

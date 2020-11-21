@@ -31,6 +31,13 @@ namespace ParkingLot
             return new Ticket(car.GetLicenseNumber(), location);
         }
 
+        public Car ReturnCar(Ticket ticket)
+        {
+            var car = cars.Find(car => car.GetLicenseNumber() == ticket.GetLicenseNumber());
+            cars.Remove(car);
+            return car;
+        }
+
         public bool HaveCar(Car car)
         {
             return cars.Contains(car);

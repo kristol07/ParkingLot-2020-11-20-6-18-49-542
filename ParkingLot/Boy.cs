@@ -11,5 +11,11 @@ namespace ParkingLot
             var ticket = lot.ParkCar(car);
             return ticket;
         }
+
+        public Car Fetch(Ticket ticket, Lot lot)
+        {
+            var car = lot.ReturnCar(ticket);
+            return car;
+        }
     }
 }
