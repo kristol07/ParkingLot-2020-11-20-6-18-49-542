@@ -35,5 +35,10 @@ namespace ParkingLot
         {
             return cars.Contains(car);
         }
+
+        public int GetCapacity()
+        {
+            return capacity;
+        }
     }
 }
