@@ -15,6 +15,11 @@ namespace ParkingLot
 
         public Ticket Park(Car car, Lot lot)
         {
+            if (car == null)
+            {
+                return null;
+            }
+
             var ticket = lot.ParkCar(car, this);
             return ticket;
         }
