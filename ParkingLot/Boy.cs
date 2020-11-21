@@ -24,6 +24,25 @@ namespace ParkingLot
             return ticket;
         }
 
+        public Ticket Park(Car car, Lot lot, out string reponseMessage)
+        {
+            if (car == null || lot.HaveCar(car))
+            {
+                reponseMessage = "Please provide valid car.";
+                return null;
+            }
+
+            if (!lot.HasPosition)
+            {
+                reponseMessage = "Not enough position.";
+                return null;
+            }
+
+            reponseMessage = string.Empty;
+            var ticket = lot.ParkCar(car, this);
+            return ticket;
+        }
+
         public Car Fetch(Ticket ticket, Lot lot, out string responseMessage)
         {
             if (ticket == null)
@@ -32,7 +51,8 @@ namespace ParkingLot
                 return null;
             }
 
-            if (ticket.GetBoyId() != id || ticket.IsUsed)
+            if (ticket.GetBoyId() != id
+                || ticket.IsUsed)
             {
                 responseMessage = "Unrecognized parking ticket.";
                 return null;
@@ -45,7 +65,9 @@ namespace ParkingLot
 
         public Car Fetch(Ticket ticket, Lot lot)
         {
-            if (ticket == null || ticket.GetBoyId() != id || ticket.IsUsed)
+            if (ticket == null
+                || ticket.GetBoyId() != id
+                || ticket.IsUsed)
             {
                 return null;
             }
