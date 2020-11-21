@@ -26,7 +26,7 @@ namespace ParkingLot
 
         public Car Fetch(Ticket ticket, Lot lot)
         {
-            if (ticket == null || ticket.IsUsed)
+            if (ticket == null || ticket.GetBoyId() != id || ticket.IsUsed)
             {
                 return null;
             }

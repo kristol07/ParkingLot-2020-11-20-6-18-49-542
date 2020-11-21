@@ -62,11 +62,6 @@ namespace ParkingLot
 
         public Car ReturnCar(Ticket ticket, Boy boy)
         {
-            if (ticket.GetBoyId() != boy.GetId())
-            {
-                return null;
-            }
-
             List<Car> cars;
             if (!inventory.TryGetValue(boy.GetId(), out cars))
             {
