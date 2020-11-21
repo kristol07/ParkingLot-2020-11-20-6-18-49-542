@@ -43,6 +43,11 @@ namespace ParkingLot
 
         public Ticket ParkCar(Car car, Boy boy)
         {
+            if (!HasPosition)
+            {
+                return null;
+            }
+
             List<Car> cars;
             if (!inventory.TryGetValue(boy.GetId(), out cars))
             {

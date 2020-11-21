@@ -140,5 +140,25 @@ namespace ParkingLotTest
 
             Assert.Null(tryFetchedCar);
         }
+
+        [Fact]
+        public void Should_not_park_car_and_return_no_ticket_when_positions_are_all_occupied()
+        {
+            var boy = new Boy();
+            var lot = new Lot(capacity: 1);
+            var car1 = new Car("123");
+            var ticket = boy.Park(car1, lot);
+            var car2 = new Car("456");
+
+            var tryTicket = boy.Park(car2, lot);
+            Assert.Null(tryTicket);
+            Assert.False(lot.HaveCar(car2));
+
+            Car tryFetchedCar = boy.Fetch(ticket, lot);
+            var newTryTicket = boy.Park(car2, lot);
+            Assert.NotNull(newTryTicket);
+            Assert.Equal(newTryTicket.GetLicenseNumber(), car2.GetLicenseNumber());
+            Assert.True(lot.HaveCar(car2));
+        }
     }
 }
