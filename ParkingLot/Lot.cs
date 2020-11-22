@@ -33,23 +33,23 @@ namespace ParkingLot
         public Ticket ParkCar(Car car, Boy boy)
         {
             List<Car> cars;
-            if (!inventory.TryGetValue(boy.GetId(), out cars))
+            if (!inventory.TryGetValue(boy.Id, out cars))
             {
                 cars = new List<Car>();
-                inventory.Add(boy.GetId(), cars);
+                inventory.Add(boy.Id, cars);
             }
 
             cars.Add(car);
 
-            return new Ticket(car.GetLicenseNumber(), location, boy.GetId());
+            return new Ticket(car.GetLicenseNumber(), location, boy.Id);
         }
 
         public Car ReturnCar(Ticket ticket, Boy boy)
         {
             List<Car> cars;
-            if (!inventory.TryGetValue(boy.GetId(), out cars))
+            if (!inventory.TryGetValue(boy.Id, out cars))
             {
-                inventory.Add(boy.GetId(), new List<Car>());
+                inventory.Add(boy.Id, new List<Car>());
             }
 
             var car = cars.Find(car => car.GetLicenseNumber() == ticket.GetLicenseNumber());

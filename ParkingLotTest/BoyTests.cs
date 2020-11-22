@@ -47,7 +47,7 @@ namespace ParkingLotTest
             boy.Lots = new Lot[] { lot };
             string message;
             var correctTicket = boy.Park(car, out message);
-            var wrongTicket = new Ticket(car.GetLicenseNumber(), lot.GetLocation(), boy.GetId() + 1);
+            var wrongTicket = new Ticket(car.GetLicenseNumber(), lot.GetLocation(), boy.Id + 1);
 
             var fetchedCarWithWrongTicket = boy.Fetch(wrongTicket, out message);
             var fetchedCarWithCorrectTicket = boy.Fetch(correctTicket, out message);
@@ -81,7 +81,7 @@ namespace ParkingLotTest
             string errorMessage;
             var ticket = boy.Park(car, out errorMessage);
 
-            var wrongTicket = new Ticket(car.GetLicenseNumber(), lot.GetLocation(), boy.GetId() + 1);
+            var wrongTicket = new Ticket(car.GetLicenseNumber(), lot.GetLocation(), boy.Id + 1);
             var fetchedCar = boy.Fetch(wrongTicket, out errorMessage);
 
             Assert.Equal("Unrecognized parking ticket.", errorMessage);

@@ -16,6 +16,7 @@ namespace ParkingLot
         }
 
         public Lot[] Lots { get; set; }
+        public int Id => id;
 
         public Ticket Park(Car car, out string responseMessage)
         {
@@ -59,11 +60,6 @@ namespace ParkingLot
                 var car = lot.ReturnCar(ticket, this);
                 return car;
             }
-        }
-
-        public int GetId()
-        {
-            return id;
         }
 
         protected virtual Lot FindLotWithStrategy()
