@@ -19,7 +19,7 @@ namespace ParkingLot
 
         public virtual Ticket Park(Car car, out string responseMessage)
         {
-            var lot = Lots.First(lot => lot.HasPosition);
+            var lot = Lots.FirstOrDefault(lot => lot.HasPosition);
             if (lot == null)
             {
                 responseMessage = "Not enough position.";
