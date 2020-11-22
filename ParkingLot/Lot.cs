@@ -20,7 +20,7 @@ namespace ParkingLot
 
         public int Capacity => capacity;
         public int LeftPosition => capacity - Cars.Count;
-        public double AvailablePositionRate => LeftPosition / capacity;
+        public double AvailablePositionRate => (double)LeftPosition / capacity;
 
         public List<Car> Cars => inventory.SelectMany(boyCars => boyCars.Value).ToList();
         public bool HasPosition => LeftPosition > 0;
