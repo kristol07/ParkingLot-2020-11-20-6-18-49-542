@@ -59,7 +59,7 @@ namespace ParkingLotTest
             var ticket = boy.Park(car, lot);
             var initialLeftPosition = lot.LeftPosition;
 
-            var fecthedCar = boy.Fetch(ticket, lot);
+            var fetchedCar = boy.Fetch(ticket, lot);
             var newLeftPosition = lot.LeftPosition;
 
             Assert.Equal(1, newLeftPosition - initialLeftPosition);

@@ -18,22 +18,10 @@ namespace ParkingLot
             this.inventory = new Dictionary<int, List<Car>>();
         }
 
-        public int LeftPosition
-        {
-            get
-            {
-                return capacity - Cars.Count;
-            }
-        }
+        public int LeftPosition => capacity - Cars.Count;
+        public double AvailablePositionRate => LeftPosition / capacity;
 
-        public List<Car> Cars
-        {
-            get
-            {
-                return inventory.SelectMany(boyCars => boyCars.Value).ToList();
-            }
-        }
-
+        public List<Car> Cars => inventory.SelectMany(boyCars => boyCars.Value).ToList();
         public bool HasPosition => LeftPosition > 0;
 
         public string GetLocation()

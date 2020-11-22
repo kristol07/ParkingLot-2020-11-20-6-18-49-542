@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace ParkingLot
@@ -13,6 +15,24 @@ namespace ParkingLot
             this.id = id;
         }
 
+        public Lot[] Lots { get; set; }
+
+        public virtual Ticket Park(Car car, out string responseMessage)
+        {
+            var lot = Lots.First(lot => lot.HasPosition);
+            if (lot == null)
+            {
+                responseMessage = "Not enough position.";
+                return null;
+            }
+            else
+            {
+                responseMessage = string.Empty;
+                var ticket = lot.ParkCar(car, this);
+                return ticket;
+            }
+        }
+
         public Ticket Park(Car car, Lot lot)
         {
             if (car == null || !lot.HasPosition || lot.HaveCar(car))
@@ -24,21 +44,21 @@ namespace ParkingLot
             return ticket;
         }
 
-        public Ticket Park(Car car, Lot lot, out string reponseMessage)
+        public Ticket Park(Car car, Lot lot, out string responseMessage)
         {
             if (car == null || lot.HaveCar(car))
             {
-                reponseMessage = "Please provide valid car.";
+                responseMessage = "Please provide valid car.";
                 return null;
             }
 
             if (!lot.HasPosition)
             {
-                reponseMessage = "Not enough position.";
+                responseMessage = "Not enough position.";
                 return null;
             }
 
-            reponseMessage = string.Empty;
+            responseMessage = string.Empty;
             var ticket = lot.ParkCar(car, this);
             return ticket;
         }
