@@ -7,6 +7,10 @@ namespace ParkingLot
 {
     public class SmartBoy : Boy
     {
+        public SmartBoy(int id = 0) : base(id)
+        {
+        }
+
         protected override Lot FindLotWithStrategy()
         {
             return Lots.Where(lot => lot.HasPosition)
@@ -17,6 +21,10 @@ namespace ParkingLot
 
     public class SuperSmartBoy : Boy
     {
+        public SuperSmartBoy(int id = 0) : base(id)
+        {
+        }
+
         protected override Lot FindLotWithStrategy()
         {
             return Lots.Where(lot => lot.HasPosition)

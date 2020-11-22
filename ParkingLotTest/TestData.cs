@@ -24,5 +24,22 @@ namespace ParkingLotTest
                 yield return new Car(randomLicenseNumber);
             }
         }
+
+        public static List<Boy> GetBoys()
+        {
+            return new List<Boy>()
+            {
+                new Boy(0),
+                new SmartBoy(1),
+                new SuperSmartBoy(2)
+            };
+        }
+
+        public static List<Lot> GetLots(int number)
+        {
+            return Enumerable.Range(0, number)
+                .Select(num => new Lot($"loca{num}", num))
+                .ToList();
+        }
     }
 }
