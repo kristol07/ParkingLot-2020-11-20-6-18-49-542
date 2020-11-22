@@ -17,7 +17,7 @@ namespace ParkingLot
 
         public Lot[] Lots { get; set; }
 
-        public virtual Ticket Park(Car car, out string responseMessage)
+        public Ticket Park(Car car, out string responseMessage)
         {
             if (car == null || Lots.Any(lot => lot.HaveCar(car)))
             {
@@ -25,7 +25,7 @@ namespace ParkingLot
                 return null;
             }
 
-            var lot = Lots.FirstOrDefault(lot => lot.HasPosition);
+            var lot = FindLotWithStrategy();
             if (lot == null)
             {
                 responseMessage = "Not enough position.";
@@ -39,7 +39,7 @@ namespace ParkingLot
             }
         }
 
-        public virtual Car Fetch(Ticket ticket, out string responseMessage)
+        public Car Fetch(Ticket ticket, out string responseMessage)
         {
             if (ticket == null)
             {
@@ -64,6 +64,11 @@ namespace ParkingLot
         public int GetId()
         {
             return id;
+        }
+
+        protected virtual Lot FindLotWithStrategy()
+        {
+            return Lots.FirstOrDefault(lot => lot.HasPosition);
         }
     }
 }
