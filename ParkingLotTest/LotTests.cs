@@ -15,9 +15,11 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
+            boy.Lots = new Lot[] { lot };
 
             //when
-            var ticket = boy.Park(car, lot);
+            string errorMessage;
+            var ticket = boy.Park(car, out errorMessage);
 
             //then
             Assert.Equal(car.GetLicenseNumber(), ticket.GetLicenseNumber());
@@ -30,8 +32,10 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
+            boy.Lots = new Lot[] { lot };
 
-            var ticket = boy.Park(car, lot);
+            string errorMessage;
+            var ticket = boy.Park(car, out errorMessage);
 
             Assert.True(lot.HaveCar(car));
         }
@@ -42,9 +46,11 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
             var initialLeftPosition = lot.LeftPosition;
 
-            var ticket = boy.Park(car, lot);
+            var ticket = boy.Park(car, out errorMessage);
             var newLeftPosition = lot.LeftPosition;
 
             Assert.Equal(1, initialLeftPosition - newLeftPosition);
@@ -56,10 +62,12 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
-            var ticket = boy.Park(car, lot);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
+            var ticket = boy.Park(car, out errorMessage);
             var initialLeftPosition = lot.LeftPosition;
 
-            var fetchedCar = boy.Fetch(ticket, lot);
+            var fetchedCar = boy.Fetch(ticket, out errorMessage);
             var newLeftPosition = lot.LeftPosition;
 
             Assert.Equal(1, newLeftPosition - initialLeftPosition);
@@ -71,9 +79,11 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
-            var ticket = boy.Park(car, lot);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
+            var ticket = boy.Park(car, out errorMessage);
 
-            Car fetchedCar = boy.Fetch(ticket, lot);
+            Car fetchedCar = boy.Fetch(ticket, out errorMessage);
 
             Assert.Equal(car.GetLicenseNumber(), fetchedCar.GetLicenseNumber());
         }
@@ -85,11 +95,13 @@ namespace ParkingLotTest
             var lot = new Lot();
             var car1 = new Car("123");
             var car2 = new Car("456");
-            var ticket1 = boy.Park(car1, lot);
-            var ticket2 = boy.Park(car2, lot);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
+            var ticket1 = boy.Park(car1, out errorMessage);
+            var ticket2 = boy.Park(car2, out errorMessage);
 
-            Car fetchedCar1 = boy.Fetch(ticket1, lot);
-            Car fetchedCar2 = boy.Fetch(ticket2, lot);
+            Car fetchedCar1 = boy.Fetch(ticket1, out errorMessage);
+            Car fetchedCar2 = boy.Fetch(ticket2, out errorMessage);
 
             Assert.Equal(car1.GetLicenseNumber(), fetchedCar1.GetLicenseNumber());
             Assert.Equal(car2.GetLicenseNumber(), fetchedCar2.GetLicenseNumber());
@@ -101,11 +113,13 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
-            var correctTicket = boy.Park(car, lot);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
+            var correctTicket = boy.Park(car, out errorMessage);
             Ticket wrongTicket = null;
 
-            var fetchedCarWithWrongTicket = boy.Fetch(wrongTicket, lot);
-            var fetchedCarWithCorrectTicket = boy.Fetch(correctTicket, lot);
+            var fetchedCarWithWrongTicket = boy.Fetch(wrongTicket, out errorMessage);
+            var fetchedCarWithCorrectTicket = boy.Fetch(correctTicket, out errorMessage);
 
             Assert.Null(fetchedCarWithWrongTicket);
             Assert.Equal(car, fetchedCarWithCorrectTicket);
@@ -117,10 +131,12 @@ namespace ParkingLotTest
             var boy = new Boy();
             var lot = new Lot();
             var car = new Car("123");
-            var ticket = boy.Park(car, lot);
-            Car fetchedCar = boy.Fetch(ticket, lot);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
+            var ticket = boy.Park(car, out errorMessage);
+            Car fetchedCar = boy.Fetch(ticket, out errorMessage);
 
-            Car tryFetchedCar = boy.Fetch(ticket, lot);
+            Car tryFetchedCar = boy.Fetch(ticket, out errorMessage);
 
             Assert.Null(tryFetchedCar);
         }
@@ -130,16 +146,18 @@ namespace ParkingLotTest
         {
             var boy = new Boy();
             var lot = new Lot(capacity: 1);
+            boy.Lots = new Lot[] { lot };
+            string errorMessage;
             var car1 = new Car("123");
-            var ticket = boy.Park(car1, lot);
+            var ticket = boy.Park(car1, out errorMessage);
             var car2 = new Car("456");
 
-            var tryTicket = boy.Park(car2, lot);
+            var tryTicket = boy.Park(car2, out errorMessage);
             Assert.Null(tryTicket);
             Assert.False(lot.HaveCar(car2));
 
-            Car tryFetchedCar = boy.Fetch(ticket, lot);
-            var newTryTicket = boy.Park(car2, lot);
+            Car tryFetchedCar = boy.Fetch(ticket, out errorMessage);
+            var newTryTicket = boy.Park(car2, out errorMessage);
             Assert.NotNull(newTryTicket);
             Assert.Equal(newTryTicket.GetLicenseNumber(), car2.GetLicenseNumber());
             Assert.True(lot.HaveCar(car2));
