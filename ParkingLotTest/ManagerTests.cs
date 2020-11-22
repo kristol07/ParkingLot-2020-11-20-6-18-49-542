@@ -17,14 +17,30 @@ namespace ParkingLotTest
             var boys = TestData.GetBoys();
             manager.Boys = boys;
             boys.ForEach(boy => boy.Lots = lots.ToArray());
+            var selectedBoy = boys.First();
             var car = new Car("123");
 
             string message;
-            Ticket ticket = manager.AssignPark(car, out message);
+            Ticket ticket = manager.AssignPark(car, selectedBoy, out message);
 
             Assert.Equal(car.GetLicenseNumber(), ticket.GetLicenseNumber());
-            Assert.Contains(manager.Boys, boy => boy.Id == ticket.GetBoyId());
+            Assert.Equal(selectedBoy.Id, ticket.GetBoyId());
             Assert.Empty(message);
+        }
+
+        [Fact]
+        public void Should_return_error_message_when_ticket_is_used()
+        {
+        }
+
+        [Fact]
+        public void Should_return_error_message_when_ticket_is_not_matched_for_boy()
+        {
+        }
+
+        [Fact]
+        public void Should_return_error_message_when_ticket_is_not_provided_for_fetching_car()
+        {
         }
 
         [Fact]
@@ -35,11 +51,12 @@ namespace ParkingLotTest
             var boys = TestData.GetBoys();
             manager.Boys = boys;
             boys.ForEach(boy => boy.Lots = lots.ToArray());
+            var selectedBoy = boys.First();
             var car = new Car("123");
             string message;
-            Ticket ticket = manager.AssignPark(car, out message);
+            Ticket ticket = manager.AssignPark(car, selectedBoy, out message);
 
-            var fetchedCar = manager.AssignFetch(ticket, out message);
+            var fetchedCar = manager.AssignFetch(ticket, selectedBoy, out message);
 
             Assert.Equal(car, fetchedCar);
             Assert.Empty(message);

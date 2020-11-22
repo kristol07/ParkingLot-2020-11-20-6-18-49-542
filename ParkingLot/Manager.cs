@@ -13,34 +13,27 @@ namespace ParkingLot
 
         public List<Boy> Boys { get; set; } = new List<Boy>();
 
-        public Ticket AssignPark(Car car, out string message)
+        public Ticket AssignPark(Car car, Boy boy, out string message)
         {
-            var random = new Random();
-            var selectedBoy = Boys.OrderBy(boy => random.Next())
-                .FirstOrDefault();
+            if (!Boys.Contains(boy))
+            {
+                message = "Boy can not be managed.";
+                return null;
+            }
 
-            var ticket = selectedBoy.Park(car, out message);
+            var ticket = boy.Park(car, out message);
             return ticket;
         }
 
-        public Car AssignFetch(Ticket ticket, out string message)
+        public Car AssignFetch(Ticket ticket, Boy boy, out string message)
         {
-            if (ticket == null)
+            if (!Boys.Contains(boy))
             {
-                message = "Please provide your parking ticket.";
+                message = "Boy can not be managed.";
                 return null;
             }
 
-            var boy = Boys.Find(boy => boy.Id == ticket.GetBoyId());
-            if (boy != null)
-            {
-                return boy.Fetch(ticket, out message);
-            }
-            else
-            {
-                message = "Unrecognized parking ticket.";
-                return null;
-            }
+            return boy.Fetch(ticket, out message);
         }
     }
 }
