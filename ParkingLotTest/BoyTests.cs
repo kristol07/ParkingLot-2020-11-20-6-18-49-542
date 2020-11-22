@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using ParkingLot;
 using Xunit;
@@ -106,6 +107,32 @@ namespace ParkingLotTest
             var ticket = boy.Park(car2, lot, out errorMessage);
 
             Assert.Equal("Not enough position.", errorMessage);
+        }
+
+        [Fact]
+        public void Should_only_park_car_to_new_lot_when_previous_lot_is_full()
+        {
+            var boy = new Boy();
+            var lot1 = new Lot("loca1", 5);
+            var lot2 = new Lot("loca2", 5);
+            boy.Lots = new[] { lot1, lot2 };
+
+            string message;
+            var licenses = new List<string>();
+            foreach (var car in TestData.GetCars(8))
+            {
+                var ticket = boy.Park(car, out message);
+                licenses.Add(car.GetLicenseNumber());
+                Assert.Empty(message);
+            }
+
+            Assert.True(
+                licenses.Where(license => licenses.IndexOf(license) < lot1.Capacity)
+                    .All(license => lot1.HaveCar(license)));
+
+            Assert.True(
+                licenses.Where(license => licenses.IndexOf(license) > lot1.Capacity)
+                    .All(license => lot2.HaveCar(license)));
         }
     }
 }

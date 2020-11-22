@@ -18,6 +18,7 @@ namespace ParkingLot
             this.inventory = new Dictionary<int, List<Car>>();
         }
 
+        public int Capacity => capacity;
         public int LeftPosition => capacity - Cars.Count;
         public double AvailablePositionRate => LeftPosition / capacity;
 
@@ -60,6 +61,11 @@ namespace ParkingLot
         public bool HaveCar(Car car)
         {
             return Cars.Contains(car);
+        }
+
+        public bool HaveCar(string license)
+        {
+            return Cars.Select(car => car.GetLicenseNumber()).Contains(license);
         }
     }
 }
