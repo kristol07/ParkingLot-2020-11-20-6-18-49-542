@@ -31,5 +31,27 @@ namespace ParkingLotTest
             Assert.Equal(lot1.GetLocation(), locations[2]);
             Assert.Equal(lot2.GetLocation(), locations[3]);
         }
+
+        [Fact]
+        public void Should_return_error_message_when_all_lots_managed_are_full_for_parking_new_car()
+        {
+            var boy = new SmartBoy();
+            var lot1 = new Lot("loca1", 2);
+            var lot2 = new Lot("loca2", 3);
+            boy.Lots = new[] { lot1, lot2 };
+
+            string message;
+            var messages = new List<string>();
+            foreach (var car in TestData.GetCars(lot1.Capacity + lot2.Capacity + 1))
+            {
+                var ticket = boy.Park(car, out message);
+                messages.Add(message);
+            }
+
+            Assert.True(messages.Where(message => messages.IndexOf(message) < (lot1.Capacity + lot2.Capacity))
+                .All(message => string.IsNullOrEmpty(message)));
+
+            Assert.Equal("Not enough position.", messages.Last());
+        }
     }
 }
