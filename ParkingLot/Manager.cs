@@ -5,11 +5,15 @@ using System.Text;
 
 namespace ParkingLot
 {
-    public class Manager
+    public class Manager : Boy
     {
+        public Manager(int id = 0) : base(id)
+        {
+        }
+
         public List<Boy> Boys { get; set; } = new List<Boy>();
 
-        public Ticket Park(Car car, out string message)
+        public Ticket AssignPark(Car car, out string message)
         {
             var random = new Random();
             var selectedBoy = Boys.OrderBy(boy => random.Next())
@@ -19,7 +23,7 @@ namespace ParkingLot
             return ticket;
         }
 
-        public Car Fetch(Ticket ticket, out string message)
+        public Car AssignFetch(Ticket ticket, out string message)
         {
             if (ticket == null)
             {
