@@ -11,7 +11,7 @@ namespace ParkingLot
         {
         }
 
-        protected override Lot FindLotWithStrategy()
+        public override Lot FindLotWithStrategy()
         {
             return Lots.Where(lot => lot.HasPosition)
                 .OrderBy(lot => lot.LeftPosition)
@@ -25,7 +25,7 @@ namespace ParkingLot
         {
         }
 
-        protected override Lot FindLotWithStrategy()
+        public override Lot FindLotWithStrategy()
         {
             return Lots.Where(lot => lot.HasPosition)
                 .OrderBy(lot => lot.AvailablePositionRate)

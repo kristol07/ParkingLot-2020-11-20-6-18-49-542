@@ -62,7 +62,7 @@ namespace ParkingLot
             }
         }
 
-        protected virtual Lot FindLotWithStrategy()
+        public virtual Lot FindLotWithStrategy()
         {
             return Lots.FirstOrDefault(lot => lot.HasPosition);
         }

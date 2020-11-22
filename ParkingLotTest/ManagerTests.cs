@@ -11,6 +11,26 @@ namespace ParkingLotTest
     public class ManagerTests
     {
         [Fact]
+        public void Should_able_to_park_car()
+        {
+            var manager = new Manager();
+            var lots = TestData.GetLots(3);
+            var boys = TestData.GetBoys();
+            manager.Boys = boys;
+            boys.ForEach(boy => boy.Lots = lots.ToArray());
+            manager.Lots = lots.ToArray();
+            var car = new Car("123");
+
+            string message;
+            Ticket ticket = manager.TryPark(car, out message);
+
+            Assert.Equal(car.GetLicenseNumber(), ticket.GetLicenseNumber());
+            var all = boys.Concat(new List<Boy>() { manager });
+            Assert.Contains(all, boy => boy.Id == ticket.GetBoyId());
+            Assert.Empty(message);
+        }
+
+        [Fact]
         public void Should_able_to_assign_parking_boy_to_park_car()
         {
             var manager = new Manager();
@@ -27,6 +47,24 @@ namespace ParkingLotTest
             Assert.Equal(car.GetLicenseNumber(), ticket.GetLicenseNumber());
             Assert.Equal(selectedBoy.Id, ticket.GetBoyId());
             Assert.Empty(message);
+        }
+
+        [Fact]
+        public void Should_return_error_message_when_lots_are_full()
+        {
+            var manager = new Manager();
+            var lots = TestData.GetLots(3);
+            var boys = TestData.GetBoys();
+            manager.Boys = boys;
+            boys.ForEach(boy => boy.Lots = new[] { new Lot(capacity: 0), });
+            manager.Lots = new[] { new Lot(capacity: 0), };
+            var car = new Car("123");
+
+            string message;
+            Ticket ticket = manager.TryPark(car, out message);
+
+            Assert.Null(ticket);
+            Assert.Equal("Not enough position.", message);
         }
 
         [Fact]
@@ -49,6 +87,25 @@ namespace ParkingLotTest
 
             Assert.Null(ticket);
             Assert.Equal("Not enough position.", message);
+        }
+
+        [Fact]
+        public void Should_able_to_fetch_car()
+        {
+            var manager = new Manager();
+            var lots = TestData.GetLots(3);
+            var boys = TestData.GetBoys();
+            manager.Boys = boys;
+            boys.ForEach(boy => boy.Lots = lots.ToArray());
+            manager.Lots = lots.ToArray();
+            var car = new Car("123");
+            string message;
+            Ticket ticket = manager.TryPark(car, out message);
+
+            var fetchedCar = manager.TryFetch(ticket, out message);
+
+            Assert.Equal(car, fetchedCar);
+            Assert.Empty(message);
         }
 
         [Fact]
@@ -78,13 +135,13 @@ namespace ParkingLotTest
             var boys = TestData.GetBoys();
             manager.Boys = boys;
             boys.ForEach(boy => boy.Lots = lots.ToArray());
-            var selectedBoy = boys.First();
+            manager.Lots = lots.ToArray();
             var car = new Car("123");
             string message;
-            Ticket ticket = manager.AssignPark(car, selectedBoy, out message);
-            var fetchedCar = manager.AssignFetch(ticket, selectedBoy, out message);
+            Ticket ticket = manager.TryPark(car, out message);
+            var fetchedCar = manager.TryFetch(ticket, out message);
 
-            var tryFetchedCar = manager.AssignFetch(ticket, selectedBoy, out message);
+            var tryFetchedCar = manager.TryFetch(ticket, out message);
             Assert.Null(tryFetchedCar);
             Assert.Equal("Unrecognized parking ticket.", message);
         }
@@ -117,12 +174,12 @@ namespace ParkingLotTest
             var boys = TestData.GetBoys();
             manager.Boys = boys;
             boys.ForEach(boy => boy.Lots = lots.ToArray());
-            var selectedBoy = boys.First();
+            manager.Lots = lots.ToArray();
             var car = new Car("123");
             string message;
-            Ticket ticket = manager.AssignPark(car, selectedBoy, out message);
+            Ticket ticket = manager.TryPark(car, out message);
 
-            var tryFetchedCar = manager.AssignFetch(null, selectedBoy, out message);
+            var tryFetchedCar = manager.TryFetch(null, out message);
 
             Assert.Null(tryFetchedCar);
             Assert.Equal("Please provide your parking ticket.", message);
